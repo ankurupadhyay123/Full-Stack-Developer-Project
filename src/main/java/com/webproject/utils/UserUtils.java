@@ -2,12 +2,12 @@ package com.webproject.utils;
 
 import com.webproject.backend.persistence.domain.backend.User;
 
-public class UsersUtils {
+public class UserUtils {
 
     /**
      * Non instantiable
      */
-    private UsersUtils() {
+    private UserUtils() {
         throw new AssertionError("Non instantiable");
     }
 

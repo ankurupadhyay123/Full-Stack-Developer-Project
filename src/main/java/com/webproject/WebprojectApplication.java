@@ -6,7 +6,7 @@ import com.webproject.backend.persistence.domain.backend.UserRole;
 import com.webproject.backend.service.UserService;
 import com.webproject.enums.PlansEnum;
 import com.webproject.enums.RolesEnum;
-import com.webproject.utils.UsersUtils;
+import com.webproject.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class WebprojectApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
-		User user = UsersUtils.createBasicUser();
+		User user = UserUtils.createBasicUser();
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, new Role(RolesEnum.BASIC)));
 		LOG.debug("Creating user with username {}", user.getUsername());
