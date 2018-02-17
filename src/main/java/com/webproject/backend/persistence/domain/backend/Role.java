@@ -1,5 +1,7 @@
 package com.webproject.backend.persistence.domain.backend;
 
+import com.webproject.enums.RolesEnum;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,7 +29,6 @@ public class Role implements Serializable {
         this.userRoles = userRoles;
     }
 
-
     public int getId() {
         return id;
     }
@@ -46,6 +47,16 @@ public class Role implements Serializable {
 
     public Role() {
     }
+
+    /**
+     * Full Constructor
+     * @param rolesEnum
+     */
+    public Role(RolesEnum rolesEnum) {
+        this.id = rolesEnum.getId();
+        this.name = rolesEnum.getRoleName();
+    }
+
 
     @Override
     public boolean equals(Object o) {
