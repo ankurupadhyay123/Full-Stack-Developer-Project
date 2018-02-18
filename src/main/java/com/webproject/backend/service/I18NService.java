@@ -1,4 +1,4 @@
-package com.webproject.web.i18n;
+package com.webproject.backend.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

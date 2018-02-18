@@ -1,6 +1,6 @@
 package com.webproject;
 
-import com.webproject.web.i18n.I18NService;
+import com.webproject.backend.service.I18NService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
