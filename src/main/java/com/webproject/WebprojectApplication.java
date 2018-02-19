@@ -3,6 +3,7 @@ package com.webproject;
 import com.webproject.backend.persistence.domain.backend.Role;
 import com.webproject.backend.persistence.domain.backend.User;
 import com.webproject.backend.persistence.domain.backend.UserRole;
+import com.webproject.backend.service.PlanService;
 import com.webproject.backend.service.UserService;
 import com.webproject.enums.PlansEnum;
 import com.webproject.enums.RolesEnum;
@@ -27,6 +28,9 @@ public class WebprojectApplication implements CommandLineRunner{
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PlanService planService;
+
 	@Value("${webmaster.username}")
 	private String webmasterUsername;
 
@@ -42,6 +46,10 @@ public class WebprojectApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
+
+		LOG.info("Creating Basic and Pro plans in the database...");
+		planService.createPlan(PlansEnum.BASIC.getId());
+		planService.createPlan(PlansEnum.PRO.getId());
 
 		User user = UserUtils.createBasicUser(webmasterUsername, webmasterEmail);
 		user.setPassword(webmasterPassword);

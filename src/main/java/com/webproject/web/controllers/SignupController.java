@@ -4,6 +4,7 @@ import com.webproject.backend.persistence.domain.backend.Plan;
 import com.webproject.backend.persistence.domain.backend.Role;
 import com.webproject.backend.persistence.domain.backend.User;
 import com.webproject.backend.persistence.domain.backend.UserRole;
+import com.webproject.backend.service.PlanService;
 import com.webproject.backend.service.UserService;
 import com.webproject.enums.PlansEnum;
 import com.webproject.enums.RolesEnum;
@@ -35,9 +36,9 @@ public class SignupController {
     
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(SignupController.class);
-/*
+
     @Autowired
-    private PlanService planService;*/
+    private PlanService planService;
 
     @Autowired
     private UserService userService;
@@ -67,7 +68,7 @@ public class SignupController {
         return SUBSCRIPTION_VIEW_NAME;
     }
 
-   /* @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
     public String signUpPost(@RequestParam(name = "planId", required = true) int planId,
                              @ModelAttribute(PAYLOAD_MODEL_KEY_NAME) @Valid ProAccountPayload payload,
                              ModelMap model) throws IOException {
@@ -144,7 +145,7 @@ public class SignupController {
         model.addAttribute(SIGNED_UP_MESSAGE_KEY, "true");
 
         return SUBSCRIPTION_VIEW_NAME;
-    }*/
+    }
 
 
     //--------------> Private methods
@@ -153,7 +154,7 @@ public class SignupController {
      * Checks if the username/email are duplicates and sets error flags in the model.
      * Side effect: the method might set attributes on Model
      **/
-    /*private void checkForDuplicates(BasicAccountPayload payload, ModelMap model) {
+    private void checkForDuplicates(BasicAccountPayload payload, ModelMap model) {
 
         // Username
         if (userService.findByUserName(payload.getUsername()) != null) {
@@ -163,5 +164,5 @@ public class SignupController {
             model.addAttribute(DUPLICATED_EMAIL_KEY, true);
         }
 
-    }*/
+    }
 }
