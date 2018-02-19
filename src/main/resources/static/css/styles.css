@@ -59,3 +59,12 @@ body {
     line-height: 1;
     letter-spacing: -1px;
 }
+
+/*--------------
+ *Signup form
+ *--------------*/
+
+/** Registration Page */
+.fieldError {
+    border: 2px solid red;
+}
