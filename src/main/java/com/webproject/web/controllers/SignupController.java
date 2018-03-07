@@ -6,9 +6,11 @@ import com.webproject.backend.persistence.domain.backend.User;
 import com.webproject.backend.persistence.domain.backend.UserRole;
 import com.webproject.backend.service.PlanService;
 import com.webproject.backend.service.S3Service;
+import com.webproject.backend.service.StripeService;
 import com.webproject.backend.service.UserService;
 import com.webproject.enums.PlansEnum;
 import com.webproject.enums.RolesEnum;
+import com.webproject.utils.StripeUtils;
 import com.webproject.utils.UserUtils;
 import com.webproject.web.domain.frontend.BasicAccountPayload;
 import com.webproject.web.domain.frontend.ProAccountPayload;
@@ -45,6 +47,9 @@ public class SignupController {
 
     @Autowired
     private S3Service s3Service;
+
+    @Autowired
+    private StripeService stripeService;
 
     public static final String SIGNUP_URL_MAPPING = "/signup";
 
@@ -160,17 +165,17 @@ public class SignupController {
 
             // If the user has selected the pro account, creates the Stripe customer to store the stripe customer id in
             // the db
-/*            Map<String, Object> stripeTokenParams = StripeUtils.extractTokenParamsFromSignupPayload(payload);
+            Map<String, Object> stripeTokenParams = StripeUtils.extractTokenParamsFromSignupPayload(payload);
 
             Map<String, Object> customerParams = new HashMap<String, Object>();
             customerParams.put("description", "DevOps Buddy customer. Username: " + payload.getUsername());
             customerParams.put("email", payload.getEmail());
-            customerParams.put("plan", selectedPlan.getId());
+            //customerParams.put("plan", selectedPlan.getId());
             LOG.info("Subscribing the customer to plan {}", selectedPlan.getName());
             String stripeCustomerId = stripeService.createCustomer(stripeTokenParams, customerParams);
             LOG.info("Username: {} has been subscribed to Stripe", payload.getUsername());
 
-            user.setStripeCustomerId(stripeCustomerId);*/
+            user.setStripeCustomerId(stripeCustomerId);
 
             registeredUser = userService.createUser(user, PlansEnum.PRO, roles);
             LOG.debug(payload.toString());
