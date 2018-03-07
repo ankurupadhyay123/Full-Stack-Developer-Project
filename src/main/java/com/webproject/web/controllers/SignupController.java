@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SignupController {
@@ -147,6 +145,33 @@ public class SignupController {
             registeredUser = userService.createUser(user, PlansEnum.BASIC, roles);
         } else {
             roles.add(new UserRole(user, new Role(RolesEnum.PRO)));
+
+            // Extra precaution in case the POST method is invoked programmatically
+            if (StringUtils.isEmpty(payload.getCardCode()) ||
+                    StringUtils.isEmpty(payload.getCardNumber()) ||
+                    StringUtils.isEmpty(payload.getCardMonth()) ||
+                    StringUtils.isEmpty(payload.getCardYear())) {
+                LOG.error("One or more credit card fields is null or empty. Returning error to the user");
+                model.addAttribute(SIGNED_UP_MESSAGE_KEY, "false");
+                model.addAttribute(ERROR_MESSAGE_KEY, "One of more credit card details is null or empty.");
+                return SUBSCRIPTION_VIEW_NAME;
+
+            }
+
+            // If the user has selected the pro account, creates the Stripe customer to store the stripe customer id in
+            // the db
+/*            Map<String, Object> stripeTokenParams = StripeUtils.extractTokenParamsFromSignupPayload(payload);
+
+            Map<String, Object> customerParams = new HashMap<String, Object>();
+            customerParams.put("description", "DevOps Buddy customer. Username: " + payload.getUsername());
+            customerParams.put("email", payload.getEmail());
+            customerParams.put("plan", selectedPlan.getId());
+            LOG.info("Subscribing the customer to plan {}", selectedPlan.getName());
+            String stripeCustomerId = stripeService.createCustomer(stripeTokenParams, customerParams);
+            LOG.info("Username: {} has been subscribed to Stripe", payload.getUsername());
+
+            user.setStripeCustomerId(stripeCustomerId);*/
+
             registeredUser = userService.createUser(user, PlansEnum.PRO, roles);
             LOG.debug(payload.toString());
         }
